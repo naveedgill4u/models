@@ -2,4 +2,43 @@
 title: "Models"
 author: Naveed Ahmad
 format: html
+execute: 
+  cache: false
 ---
+
+The prediction of our model is based upon some assumptions that data is representative of eligible voters and if there is any treatment assignment that will be random but if the assumptions may not hold true, the predictions may lose significance.
+
+The chances for win of Biden as predicted by our model are not significant drawn from data of survey.
+```{r}
+#| message: false
+library(tidyverse)
+library(primer.data)
+library(broom)
+
+model <- lm(mpg ~ wt + hp, data = mtcars)
+summary(model)
+
+```
+
+```{r}
+#| cache: true
+fit_biden <- model <- lm(mpg ~ wt + hp, data = mtcars)
+summary(model)
+```
+
+```{r}
+library(dplyr)
+library(knitr)
+tidy(model, conf.int = TRUE) |>
+  select(term, estimate, conf.low, conf.high) |>
+  kable(digits = 3, caption = "Estimates with 95% Confidence Intervals")
+```
+
+```{r}
+
+
+
+```
+
+
+
