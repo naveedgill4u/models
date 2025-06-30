@@ -9,7 +9,7 @@ execute:
 
 ```{r}
 #| message: false
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(tidymodels)
 library(broom)
 poll_data <- tibble(biden = as.factor(c(rep("Yes", 655), 
@@ -22,6 +22,57 @@ poll_data <- tibble(biden = as.factor(c(rep("Yes", 655),
 #| cache: true
 fit_biden <- logistic_reg() |> 
   fit(biden ~ 1, data = poll_data)
+  
+```
+
+```{r}
+library(gt)
+library(dplyr)
+library(marginaleffects)
+tidy(fit_biden, conf.int = TRUE) %>%
+  select(term, estimate, conf.low, conf.high) %>%
+  gt() %>%
+  fmt_number(
+    columns = c(estimate, conf.low, conf.high),
+    decimals = 3
+  ) %>%
+  cols_label(
+    term = "Term",
+    estimate = "Estimate",
+    conf.low = "Lower CI",
+    conf.high = "Upper CI"
+  ) %>%
+  tab_header(
+    title = "Model Estimates with 95% Confidence Intervals"
+  )
+```
+
+```{r}
+biden_vote <- data.frame(
+  estimate = 0.42,
+  conf.low = 0.395,
+  conf.high = 0.445
+)
+```
+```{r}
+biden_vote <- avg_predictions(fit_biden, type = "prob")
+ggplot(biden_vote, aes(x = 1, y = estimate)) +
+  geom_point(size = 4, color = "navy") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1, color = "navy") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0.38, 0.46)) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    panel.grid.major.x = element_blank(),
+    plot.caption = element_text(hjust = 1)
+  ) +
+  labs(
+    title = "Support for President Biden in March 2024",
+    subtitle = "42% is not a good sign for an incumbent seeking reelection",
+    caption = "Source: YouGov poll, March 2024."
+  )
 ```
 
 ## Model Structure
@@ -36,6 +87,8 @@ $$
 
 Public surveys provide valuable insight about general elections however, voters response at poll stations may be very due to election companign and speeches of contesting candidates. 
 
+
+
 $$
 \text{logit}(\hat{p}) = -0.3222
 $$
@@ -44,3 +97,6 @@ $$
 \hat{p} = \frac{1}{1 + e^{-(-0.3222)}} \approx 0.4203
 $$
 
+We have adopted the logistic regression model because our outcome variable was binary i.e yes (1) and No (0) with 95% confidence interval. 
+
+The prediction shows that there are 42% chances with confidence level of 95% that a voter will cast vote in favor of Joe Biden in general election 2024.
