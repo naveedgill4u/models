@@ -1,0 +1,30 @@
+---
+title: "Biden Polling"
+author: Naveed Ahmad
+format: html
+execute: 
+  cache: false
+---
+
+
+```{r}
+#| message: false
+library(tidyverse)
+library(tidymodels)
+library(broom)
+poll_data <- tibble(biden = as.factor(c(rep("Yes", 655), 
+                                        rep("No", 904)))) |> 
+                slice_sample(prop = 1)
+```
+
+## Model Structure
+
+The general form of our regression model is:
+
+Our model will predict outcome of voters in favor of Biden in general elections however, our model is based upon some assumptions and predictions are expected to show the possible results.
+The data for this study is collected from 1559 individual voters in the month of August 2024, from twelve states of USA .
+$$
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k + \varepsilon
+$$
+
+Public surveys provide valuable insight about general elections however, voters response at poll stations may be very due to election companies and speeches of contesting candidates. 
