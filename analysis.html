@@ -142,13 +142,23 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">rep</span>(<span class="st">"No"</span>, <span class="dv">904</span>)))) <span class="sc">|&gt;</span> </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit_biden <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(biden <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> poll_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="model-structure" class="level2">
 <h2 class="anchored" data-anchor-id="model-structure">Model Structure</h2>
 <p>The general form of our regression model is:</p>
 <p>Our model will predict outcome of voters in favor of Biden in general elections however, our model is based upon some assumptions and predictions are expected to show the possible results. The data for this study is collected from 1559 individual voters in the month of August 2024, from twelve states of USA . <span class="math display">\[
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k + \varepsilon
 \]</span></p>
-<p>Public surveys provide valuable insight about general elections however, voters response at poll stations may be very due to election companies and speeches of contesting candidates.</p>
+<p>Public surveys provide valuable insight about general elections however, voters response at poll stations may be very due to election companign and speeches of contesting candidates.</p>
+<p><span class="math display">\[
+\text{logit}(\hat{p}) = -0.3222
+\]</span></p>
+<p><span class="math display">\[
+\hat{p} = \frac{1}{1 + e^{-(-0.3222)}} \approx 0.4203
+\]</span></p>
 </section>
 
 </main>
